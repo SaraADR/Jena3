@@ -1,0 +1,6 @@
+@prefix sara: <http://www.s.com/sara/>.
+
+sara:juan a sara:joven;
+sara:madre sara:rosa;
+sara:edad 13;
+sara:padre sara:jose .

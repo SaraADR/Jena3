@@ -56,12 +56,6 @@ public class Interfaz extends javax.swing.JFrame {
         solConsulta.setRows(5);
         jScrollPane2.setViewportView(solConsulta);
 
-        URL.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                URLActionPerformed(evt);
-            }
-        });
-
         archivoLocal.setText("Elegir archivo de datos local");
         archivoLocal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,9 +131,9 @@ public class Interfaz extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(31, 31, 31)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(archivoLocal)
@@ -167,6 +161,7 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GuardarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarConsultaActionPerformed
+        botonURI = false;
         JFileChooser fc = new JFileChooser(".");
         fc.setAcceptAllFileFilterUsed(false);
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -198,7 +193,6 @@ public class Interfaz extends javax.swing.JFrame {
                 }else{
                 resultados = jena.hacerConsultaRemota(mensaje);
                 }
-                botonURI = false;
                 if("".equals(resultados)){
                     resultados = "La consulta no ha dado resultados";
                 }
@@ -207,10 +201,11 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_consultaActionPerformed
 
     private void aceptarURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarURLActionPerformed
+            botonURI = false;
             String remoto = URL.getText();
-            botonURI =true;
             boolean set = jena.setURL(remoto);
             if(set == true){
+            botonURI =true;    
             JOptionPane.showMessageDialog(textoConsulta,   "Escriba su consulta","URI seleccionada",
                     INFORMATION_MESSAGE );
             }else{
@@ -240,15 +235,12 @@ public class Interfaz extends javax.swing.JFrame {
         
     }//GEN-LAST:event_archivoLocalActionPerformed
 
-    private void URLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_URLActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_URLActionPerformed
-
     private void LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LimpiarActionPerformed
         solConsulta.setText("");
         textoConsulta.setText("");
         jena.setModel(null);
         jena.setURL("");
+        URL.setText("");
     }//GEN-LAST:event_LimpiarActionPerformed
 
     /**

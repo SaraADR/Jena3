@@ -1,6 +1,5 @@
 package jena3;
 
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.jena.atlas.logging.LogCtl;
@@ -17,9 +16,9 @@ public class Jena3 {
     String url;
     
     public void setModel(Model modelo) {
-        LogCtl.setCmdLogging();
         this.modelo = modelo;
     }
+    
     public Model getModel(){
         return modelo;
     }
@@ -47,7 +46,7 @@ public class Jena3 {
             ejecucion.close();
             return sol;
         }catch(org.apache.jena.query.QueryParseException  e){
-            sol = "La consulta podría estar mal formulada, por favor revisela.";
+            sol = "La consulta podría estar mal formulada, por favor revisela.\n" + e.getMessage();
             return sol;
         }
     }
@@ -62,7 +61,7 @@ public class Jena3 {
             }
             return sol;
         }catch(org.apache.jena.query.QueryParseException e ){
-            sol = "La consulta podría estar mal formulada, por favor revisela.";
+            sol = "La consulta podría estar mal formulada, por favor revisela.\n" + e.getMessage();
             return sol;
         }      
     }

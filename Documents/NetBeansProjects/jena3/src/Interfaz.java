@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import jena3.Jena3;
+import org.apache.jena.atlas.logging.LogCtl;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RDFDataMgr;
 
@@ -17,6 +18,7 @@ public class Interfaz extends javax.swing.JFrame {
     Jena3 jena;
     public Interfaz() {
         this.jena = new Jena3();
+        LogCtl.setCmdLogging();
         initComponents();
     }
 
@@ -30,12 +32,13 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         solConsulta = new javax.swing.JTextArea();
-        jLabel3 = new javax.swing.JLabel();
         URL = new javax.swing.JTextField();
         archivoLocal = new javax.swing.JButton();
         aceptarURL = new javax.swing.JButton();
         GuardarConsulta = new javax.swing.JButton();
         consulta = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        Limpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,16 +49,18 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Generador de consultas SPARQL");
 
-        jLabel2.setText("Ingrese aqui su consulta");
+        jLabel2.setText("Ingrese aqui su consulta:");
 
         solConsulta.setEditable(false);
         solConsulta.setColumns(20);
         solConsulta.setRows(5);
         jScrollPane2.setViewportView(solConsulta);
 
-        jLabel3.setText("Solución a su consulta:");
-
-        URL.setText("Escriba URL o escoja elegir archivos de datos local");
+        URL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                URLActionPerformed(evt);
+            }
+        });
 
         archivoLocal.setText("Elegir archivo de datos local");
         archivoLocal.addActionListener(new java.awt.event.ActionListener() {
@@ -64,7 +69,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        aceptarURL.setText("Aceptar");
+        aceptarURL.setText("Cargar URL");
         aceptarURL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aceptarURLActionPerformed(evt);
@@ -85,43 +90,48 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Escriba URL o escoja elegir archivos de datos local");
+
+        Limpiar.setText("Limpiar");
+        Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(86, 86, 86)
-                                .addComponent(consulta)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(34, 34, 34))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(11, 11, 11)
+                                .addComponent(consulta)
+                                .addGap(18, 18, 18)
                                 .addComponent(GuardarConsulta)
-                                .addGap(99, 99, 99))))
+                                .addGap(18, 18, 18)
+                                .addComponent(Limpiar))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(URL, javax.swing.GroupLayout.PREFERRED_SIZE, 820, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                        .addComponent(aceptarURL)
-                        .addGap(124, 124, 124))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(archivoLocal)
+                            .addComponent(jLabel1)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(302, 302, 302)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(archivoLocal)))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(URL, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(aceptarURL)))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -129,28 +139,28 @@ public class Interfaz extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(URL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(aceptarURL))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(archivoLocal)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(consulta))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(GuardarConsulta))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(URL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(aceptarURL))
+                .addGap(43, 43, 43)
+                .addComponent(jLabel2)
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Limpiar)
+                    .addComponent(GuardarConsulta)
+                    .addComponent(consulta))
+                .addGap(11, 11, 11))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
 
         pack();
@@ -217,7 +227,7 @@ public class Interfaz extends javax.swing.JFrame {
             try {
             String path = fc.getSelectedFile().getAbsolutePath();
             Model datos = RDFDataMgr.loadModel(path);
-            URL.setText(path);
+            //URL.setText(path);
             jena.setModel(datos);
             JOptionPane.showMessageDialog(textoConsulta, "Escriba su consulta","Archivo cargado",
                        INFORMATION_MESSAGE);
@@ -229,6 +239,17 @@ public class Interfaz extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_archivoLocalActionPerformed
+
+    private void URLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_URLActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_URLActionPerformed
+
+    private void LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LimpiarActionPerformed
+        solConsulta.setText("");
+        textoConsulta.setText("");
+        jena.setModel(null);
+        jena.setURL("");
+    }//GEN-LAST:event_LimpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -263,13 +284,14 @@ public class Interfaz extends javax.swing.JFrame {
     boolean botonURI = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton GuardarConsulta;
+    private javax.swing.JButton Limpiar;
     private javax.swing.JTextField URL;
     private javax.swing.JButton aceptarURL;
     private javax.swing.JButton archivoLocal;
     private javax.swing.JButton consulta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea solConsulta;
